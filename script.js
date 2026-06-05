@@ -205,14 +205,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     skillBars.forEach(bar => skillObserver.observe(bar));
 
-    // ── Contact Form ──────────────────────────
+    // ── Contact Form (Formspree AJAX) ──────────
     const contactForm = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
 
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Simulate submission
         const originalHTML = submitBtn.innerHTML;
         submitBtn.innerHTML = `
             <svg class="spinner" viewBox="0 0 24 24" width="20" height="20">
@@ -224,22 +223,42 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         submitBtn.disabled = true;
 
-        setTimeout(() => {
+        try {
+            const formData = new FormData(contactForm);
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                submitBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Message Sent!
+                `;
+                submitBtn.style.background = 'linear-gradient(135deg, #34d399, #059669)';
+                contactForm.reset();
+            } else {
+                throw new Error('Submission failed');
+            }
+        } catch (error) {
             submitBtn.innerHTML = `
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                    <polyline points="20 6 9 17 4 12"></polyline>
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
-                Message Sent!
+                Failed — Try Again
             `;
-            submitBtn.style.background = 'linear-gradient(135deg, #34d399, #059669)';
+            submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+        }
 
-            setTimeout(() => {
-                submitBtn.innerHTML = originalHTML;
-                submitBtn.style.background = '';
-                submitBtn.disabled = false;
-                contactForm.reset();
-            }, 2500);
-        }, 1500);
+        setTimeout(() => {
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.style.background = '';
+            submitBtn.disabled = false;
+        }, 3000);
     });
 
     // ── Smooth Scroll for all anchor links ────
