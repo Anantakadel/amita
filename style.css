@@ -1297,6 +1297,49 @@ button {
     min-height: 130px;
 }
 
+/* Formspree feedback messages */
+.fs-message {
+    display: none;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    font-family: var(--ff-heading);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    margin-bottom: var(--space-md);
+    text-align: center;
+}
+
+.fs-message-success {
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    color: #34d399;
+}
+
+.fs-message-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #ef4444;
+}
+
+.fs-field-error {
+    display: block;
+    font-size: var(--fs-xs);
+    color: #ef4444;
+    margin-top: 4px;
+    min-height: 0;
+}
+
+.form-group input[aria-invalid="true"],
+.form-group textarea[aria-invalid="true"] {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+}
+
+[data-fs-submit-btn]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 
 /* ============================================
    FOOTER

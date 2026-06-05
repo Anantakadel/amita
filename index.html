@@ -402,20 +402,26 @@
                     </div>
                 </div>
                 <div class="contact-form-wrap">
-                    <form class="contact-form" id="contactForm" action="https://formspree.io/f/xojzvzqp" method="POST">
+                    <div class="fs-message fs-message-success" data-fs-success>Thank you! Your message has been sent successfully.</div>
+                    <div class="fs-message fs-message-error" data-fs-error></div>
+
+                    <form class="contact-form" id="contactForm">
                         <div class="form-group">
                             <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" required>
+                            <input type="text" id="name" name="name" required data-fs-field>
+                            <span class="fs-field-error" data-fs-error="name"></span>
                         </div>
                         <div class="form-group">
                             <label for="email">Your Email</label>
-                            <input type="email" id="email" name="email" required>
+                            <input type="email" id="email" name="email" required data-fs-field>
+                            <span class="fs-field-error" data-fs-error="email"></span>
                         </div>
                         <div class="form-group">
                             <label for="message">Your Message</label>
-                            <textarea id="message" name="message" rows="4" required></textarea>
+                            <textarea id="message" name="message" rows="4" required data-fs-field></textarea>
+                            <span class="fs-field-error" data-fs-error="message"></span>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+                        <button type="submit" class="btn btn-primary btn-full" id="submitBtn" data-fs-submit-btn>
                             Send Message
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -452,5 +458,10 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+        formspree('initForm', { formElement: '#contactForm', formId: 'xojzvzqp' });
+    </script>
+    <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 </body>
 </html>

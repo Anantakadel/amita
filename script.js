@@ -205,61 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     skillBars.forEach(bar => skillObserver.observe(bar));
 
-    // ── Contact Form (Formspree AJAX) ──────────
-    const contactForm = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
 
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    // ── Contact Form ──────────────────────────
+    // Handled by @formspree/ajax library (see index.html)
 
-        const originalHTML = submitBtn.innerHTML;
-        submitBtn.innerHTML = `
-            <svg class="spinner" viewBox="0 0 24 24" width="20" height="20">
-                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="40" stroke-linecap="round">
-                    <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.8s" repeatCount="indefinite"/>
-                </circle>
-            </svg>
-            Sending...
-        `;
-        submitBtn.disabled = true;
-
-        try {
-            const formData = new FormData(contactForm);
-            const response = await fetch(contactForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            });
-
-            if (response.ok) {
-                submitBtn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Message Sent!
-                `;
-                submitBtn.style.background = 'linear-gradient(135deg, #34d399, #059669)';
-                contactForm.reset();
-            } else {
-                throw new Error('Submission failed');
-            }
-        } catch (error) {
-            submitBtn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-                Failed — Try Again
-            `;
-            submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
-        }
-
-        setTimeout(() => {
-            submitBtn.innerHTML = originalHTML;
-            submitBtn.style.background = '';
-            submitBtn.disabled = false;
-        }, 3000);
-    });
 
     // ── Smooth Scroll for all anchor links ────
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
